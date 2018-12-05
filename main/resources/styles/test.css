@@ -1,0 +1,19 @@
+.form-row {
+    padding-bottom: 10px;
+}
+.form-label{
+    width: 100px;
+    float: left;
+}
+.col-pn {
+    width: 100px;
+}
+.col-string {
+    width: 150px;
+}
+.col-int {
+    width: 50px;
+}
+.col-date {
+    width: 80px;
+}

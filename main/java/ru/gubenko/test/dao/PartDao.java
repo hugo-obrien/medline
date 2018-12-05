@@ -31,7 +31,7 @@ public class PartDao {
         while (iter.hasNext()) {
             Map.Entry<String, String> next = iter.next();
             {
-                builder.append(likeValue(next.getKey(), String.valueOf(next.getValue())));
+                builder.append(getValue(next.getKey(), String.valueOf(next.getValue())));
             }
             if (iter.hasNext()) {
                 builder.append(" AND ");
@@ -63,7 +63,47 @@ public class PartDao {
         return parts;
     }
 
+    private String getValue(String param, String value) {
+        switch (param) {
+            case "partnumber" : return likeValue(param, value);
+            case "partname" : return likeValue(param, value);
+            case "vendor" : return likeValue(param, value);
+            case "qty" : return moreValue(param, value);
+            case "shippedafter" : return betweenValue(param, value);
+            case "shippedbefore" : return betweenValue(param, value);
+            case "receivedafter" : return betweenValue(param, value);
+            case "receivedbefore" : return betweenValue(param, value);
+        }
+        return null;
+    }
+
+    private String betweenValue(String param, String value) {
+        StringBuilder builder = new StringBuilder("(");
+        switch (param) {
+            case "shippedafter" : {
+                builder.append(" shipped ").append(">= '" ).append(value).append("')");
+                break;
+            }
+            case "shippedbefore" : {
+                builder.append(" shipped ").append("<= '" ).append(value).append("')");
+                break;
+            }
+            case "receivedafter" : {
+                builder.append(" received ").append(">= '" ).append(value).append("')");
+                break;
+            }
+            case "receivedbefore" : {
+                builder.append(" received ").append("<= '" ).append(value).append("')");
+            }
+        }
+        return builder.toString();
+    }
+
     private String likeValue(String param, String value) {
-        return "(" + param + " like \'%" + value + "%\')";
+        return "(" + param + " like '%" + value + "%')";
+    }
+
+    private String moreValue(String param, String value) {
+        return "(" + param + " > " + value + ")";
     }
 }

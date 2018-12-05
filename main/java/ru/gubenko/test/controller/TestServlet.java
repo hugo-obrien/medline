@@ -48,12 +48,4 @@ public class TestServlet extends HttpServlet {
         }
         return result;
     }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PartDao dao = new PartDao();
-        request.setAttribute("parts", dao.getAllParts());
-        request.setAttribute("show_table", true);
-        request.getRequestDispatcher("/test.jsp").forward(request, response);
-    }
 }
